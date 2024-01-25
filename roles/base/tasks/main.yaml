@@ -71,7 +71,6 @@
 #   template :
 #     src  : common-config.hcl.j2
 #     dest : "{{ consul_config_dir }}/common-config.hcl"
-
 - name     : Create consul service file
   template :
     src  : consul.service.j2
