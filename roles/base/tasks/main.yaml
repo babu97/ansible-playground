@@ -30,7 +30,7 @@
 
 
 - name    : Generate encryption key
-  shell   : consul keygen
+  shell   : /usr/local/bin/consul keygen
   register : consul_encryption_key
   when     : not key_file_present.stat.exists and ("consul_servers" in group_names)
   run_once : true
