@@ -1,4 +1,16 @@
 ---
+- name                   : Download consul binary
+  ansible.builtin.get_url :
+    url  : https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip
+    dest : /tmp/consul{{ consul_version }}.zip
+
+- name      : Expand consul binary
+  unarchive :
+    src        : /tmp/consul{{ consul_version }}.zip
+    dest       : /usr/local/bin
+    remote_src : true
+
+    
 - name  : Create consul group
   group :
     name : "{{ consul_group }}"
