@@ -67,18 +67,18 @@
   
   notify    : Restart consul service
 
-- name     : Create common consul config file
-  template :
-    src  : common-config.hcl.j2
-    dest : "{{ consul_config_dir }}/common-config.hcl"
+# - name     : Create common consul config file
+#   template :
+#     src  : common-config.hcl.j2
+#     dest : "{{ consul_config_dir }}/common-config.hcl"
 
-- name     : Create consul service file
-  template :
-    src  : consul.service.j2
-    dest : /etc/systemd/system/consul.service
-  notify    : Restart consul service
+# - name     : Create consul service file
+#   template :
+#     src  : consul.service.j2
+#     dest : /etc/systemd/system/consul.service
+#   notify    : Restart consul service
 
-- name            : Enable consul service
-  service :
-    state : started
-    name  : consul.service
+# - name            : Enable consul service
+#   service :
+#     state : started
+#     name  : consul.service
