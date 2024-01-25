@@ -2,4 +2,13 @@
 - name  : Create consul group
   group :
     name : "{{ consul_group }}"
-    
+
+- name     : Create consul service file
+  template :
+    src  : consul.service.j2
+    dest : /etc/systemd/system/consul.service
+
+- name            : Enable consul service
+  service :
+    state : started
+    name  : consul.service
