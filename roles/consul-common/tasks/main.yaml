@@ -1,1 +1,5 @@
 ---
+- name : Create consul group
+  group:
+    name: "{{consul_group}}"
+- name : create consul

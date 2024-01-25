@@ -1,1 +1,50 @@
 ---
+- name : install required packages
+  package:
+    name: unzip
+    state: present
+
+- name : Create consul user
+  user :
+    name : "{{ consul_user }}"
+
+- name      : Create directories for consul
+  file      :
+    path  : "{{item}}"
+    state : directory
+    owner : consul
+    group : consul
+    mode  : "0750"
+  with_items :
+    - "{{ consul_config_dir }}"
+    - /opt/consul
+    - /opt/consul/data
+    - "{{ consul_tls_dir }}"
+
+- name                   : Download consul binary
+  ansible.builtin.get_url :
+    url  : https://releases.hashicorp.com/consul/{{ consul_version }}/consul_{{ consul_version }}_linux_amd64.zip
+    dest : /tmp/consul{{ consul_version }}.zip
+
+
+
+- name      : Expand consul binary
+  unarchive :
+    src        : /tmp/consul{{ consul_version }}.zip
+    dest       : /usr/local/bin
+    remote_src : true
+
+- name     : Create common consul config file
+  template :
+    src  : common-config.hcl.j2
+    dest : "{{ consul_config_dir }}/common-config.hcl"
+
+- name     : Create consul service file
+  template :
+    src  : consul.service.j2
+    dest : /etc/systemd/system/consul.service
+
+- name            : Enable consul service
+  service :
+    state : started
+    name  : consul.service
